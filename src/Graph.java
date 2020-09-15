@@ -5,6 +5,13 @@ class Graph {
 	private int[][] weight;
 	private boolean weightIsUpdated;
 	private int[][] shortestRouteLength;
+	protected int[][] getShortestRouteLength() {
+		return shortestRouteLength;
+	}
+	protected String[][] getShortestRouthStrings() {
+		return shortestRouthStrings;
+	}
+
 	private String[][] shortestRouthStrings;
 	protected boolean isWeightIsUpdated() {
 		return weightIsUpdated;
@@ -51,6 +58,12 @@ class Graph {
 		this.setWeightIsUpdated(true);
 		shortestRouteLength = weight.clone();
 		shortestRouthStrings = new String[getVertexNumber()][getVertexNumber()];
+		for (int i = 0; i < shortestRouthStrings.length; i++) {
+			for (int j = 0; j < shortestRouthStrings.length; j++) {
+				shortestRouthStrings[i][j] = "";
+			}
+		}
+
 	}
 	protected void add(Vertex newVertex) {
 		this.vertexList.add(newVertex);
@@ -67,7 +80,7 @@ class Graph {
 					else {
 						if (shortestRouteLength[row][insertedVertex] + shortestRouteLength[insertedVertex][colume] < shortestRouteLength[row][colume]) {
 							shortestRouteLength[row][colume] = shortestRouteLength[row][insertedVertex] + shortestRouteLength[insertedVertex][colume];
-							shortestRouthStrings[row][colume] += vertexList.get(insertedVertex).getVertexNameString() + "-";
+							shortestRouthStrings[row][colume] = shortestRouthStrings[row][insertedVertex] + vertexList.get(insertedVertex).getVertexNameString() + "-" + shortestRouthStrings[insertedVertex][colume];
 						}
 					}
 				}
@@ -84,7 +97,7 @@ class Graph {
 		}
 		for (int row = 0; row < vertexCount; row++) {
 			for (int colume = 0; colume < vertexCount; colume++) {
-				System.out.print(shortestRouthStrings[row][colume]+"\t");
+				System.out.print(shortestRouthStrings[row][colume]+"\t\t");
 			}
 			System.out.println();
 		}

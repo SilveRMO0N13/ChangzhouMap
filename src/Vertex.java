@@ -1,9 +1,9 @@
-import java.io.File;
+
 
 class Vertex {
 	private int vertexIndex;
 	private String vertexNameString;
-	private File spotIntroFile;
+	private String spotIntroFilePath;
 	public int getVertexIndex() {
 		return vertexIndex;
 	}
@@ -16,22 +16,28 @@ class Vertex {
 	public void setVertexNameString(String vertexNameString) {
 		this.vertexNameString = vertexNameString;
 	}
-	public File getSpotIntroFile() {
-		return spotIntroFile;
+	public String getSpotIntroFilePath() {
+		return spotIntroFilePath;
 	}
-	public void setSpotIntroFile(File spotIntroFile) {
-		this.spotIntroFile = spotIntroFile;
+	public void setSpotIntroFilePath(String spotIntroFilePath) {
+		this.spotIntroFilePath = spotIntroFilePath;
 	}
 	Vertex() {
 		// TODO Auto-generated constructor stub
 		this.setVertexIndex(-1);
 		this.setVertexNameString("NULL");
-		this.setSpotIntroFile(null);
+		this.setSpotIntroFilePath(null);
 	}
-	Vertex(int vertexIndex, String vertexNameString, File spotIntroFile){
+	Vertex(int vertexIndex, String vertexNameString, String spotIntroFilePath){
 		this.setVertexIndex(vertexIndex);
 		this.setVertexNameString(vertexNameString);
-		this.setSpotIntroFile(spotIntroFile);
+		this.setSpotIntroFilePath(spotIntroFilePath);
+	}
+	Vertex(String configString){
+		String[] vertexItems = configString.split(":"); 
+		this.setVertexIndex(Integer.parseInt(vertexItems[0]));
+		this.setVertexNameString(vertexItems[1]);
+		this.setSpotIntroFilePath(vertexItems[2]);
 	}
 	@Override
 	public boolean equals(Object comparedVertex) {

@@ -1,0 +1,10 @@
+0:常州博物馆:./src/intros/常州博物馆.txt
+1:常州档案馆:./src/intros/常州档案馆.txt
+2:常州工学院:./src/intros/常州工学院.txt
+3:常州中山纪念堂:./src/intros/常州中山纪念堂.txt
+4:春秋淹城:./src/intros/春秋淹城.txt
+5:河海大学:./src/intros/河海大学.txt
+6:红梅公园:./src/intros/红梅公园.txt
+7:恐龙城:./src/intros/恐龙城.txt
+8:天宁寺:./src/intros/天宁寺.txt
+9:新北万达:./src/intros/新北万达.txt
