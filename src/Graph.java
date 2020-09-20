@@ -1,10 +1,13 @@
 import java.util.*;
 class Graph {
-	private List<Vertex> vertexList;
-	private int vertexCount;
-	private int[][] weight;
-	private boolean weightIsUpdated;
-	private int[][] shortestRouteLength;
+	//私有成员变量
+	private List<Vertex> vertexList;//节点列表
+	private int vertexCount;//节点数量
+	private int[][] weight;//带权路径表
+	private boolean weightIsUpdated;//是否更新标记，实际上未使用
+	private int[][] shortestRouteLength;//最短路径权值表，用于中间存储最短路径和最终输出
+	private String[][] shortestRouthStrings;//最短路径的路径表
+	//getter and setter
 	protected int[][] getShortestRouteLength() {
 		return shortestRouteLength;
 	}
@@ -12,7 +15,7 @@ class Graph {
 		return shortestRouthStrings;
 	}
 
-	private String[][] shortestRouthStrings;
+
 	protected boolean isWeightIsUpdated() {
 		return weightIsUpdated;
 	}
@@ -37,7 +40,7 @@ class Graph {
 	protected void setWeight(int[][] weight) {
 		this.weight = weight;
 	}
-	
+	//默认构建函数
 	public Graph() {
 		// TODO Auto-generated constructor stub
 		this.setVertexList(null);
@@ -51,6 +54,7 @@ class Graph {
 			}
 		}
 	}
+	//实际在主程序中使用的带参构建函数
 	Graph(List<Vertex> vertexList, int[][] weight){
 		this.setVertexList(vertexList);
 		this.setWeight(weight);
@@ -65,11 +69,13 @@ class Graph {
 		}
 
 	}
+	//节点添加函数
 	protected void add(Vertex newVertex) {
 		this.vertexList.add(newVertex);
 		this.setVertexNumber(getVertexNumber() + 1);
 		this.setWeightIsUpdated(false);
 	}
+	//生成最短路径，将任意两点的最短路径长度与路径计算完成后保存在成员变量中，算法核心为弗洛伊德算法
 	public void generateShortestRoute() {
 		for (int row = 0; row < vertexCount; row++) {
 			for (int colume = 0; colume < vertexCount; colume++) {
@@ -87,7 +93,7 @@ class Graph {
 			}
 		}
 	}
-	
+	//打印最短路径矩阵
 	public void printShortestRoute() {
 		for (int row = 0; row < vertexCount; row++) {
 			for (int colume = 0; colume < vertexCount; colume++) {

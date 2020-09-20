@@ -24,13 +24,9 @@ public class ChangzhouMap {
 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
-        String configString = readToString("./src/config.txt");
-        System.out.println(configString);
-        String[] configStrings = configString.split("\r\n");
-        System.out.println(configStrings[0]);
-        Vertex testVertex = new Vertex(configStrings[0]);
-        System.out.println(readToString(testVertex.getSpotIntroFilePath()));
         //从将内存中的节点信息转化为节点类对象
+        String configString = readToString("./src/config.txt");
+        String[] configStrings = configString.split("\r\n");
         List<Vertex> spotVertexs = new ArrayList<Vertex>();
         for (int index = 0; index < configStrings.length; index++) {
 			spotVertexs.add(new Vertex(configStrings[index]));
@@ -52,13 +48,14 @@ public class ChangzhouMap {
         //生成图对象，生成最短路径矩阵和
 		Graph spotGraph = new Graph(spotVertexs, weight);
 		spotGraph.generateShortestRoute();
-//		spotGraph.printShortestRoute();
 		
 		
 		//创建窗体，一个主窗体，一个副窗体用来提示最短路径
+		//主窗体
 		JFrame mainJFrame = new JFrame("常州景点介绍");
 		mainJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JFrame sideJFrame = new JFrame("最短路径");
+		//用于显示最短路径信息的副窗体
 		sideJFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		sideJFrame.setBounds(200, 200, 600, 200);;
 		FlowLayout flowLayout = new FlowLayout();
@@ -70,11 +67,16 @@ public class ChangzhouMap {
 		JLabel shortestPathCountJLabel = new JLabel();
 		sideJFrame.add(shortestPathJLabel);
 		sideJFrame.add(shortestPathCountJLabel);
+		//用于显示地图信息的副窗体
+		JFrame mapJFrame = new JFrame("常州景点地图");
+		JLabel mapJLabel = new JLabel(new ImageIcon("./src/img/抽象地图400^2.jpg"));
+		mapJFrame.add(mapJLabel);
+		
 		//创建、初始化盒式框体
-		Box  outterBox, upperBox, mapBox, inputAreaBox, profileBox, inputBox1, inputBox2;
+		Box  outterBox, upperBox, menuBox, inputAreaBox, profileBox, inputBox1, inputBox2;
 		outterBox = Box.createVerticalBox();
 		upperBox = Box.createHorizontalBox();
-		mapBox = Box.createHorizontalBox();
+		menuBox = Box.createHorizontalBox();
 		inputAreaBox = Box.createVerticalBox();
 		inputBox1 = Box.createHorizontalBox();
 		inputBox2 = Box.createHorizontalBox();
@@ -100,15 +102,14 @@ public class ChangzhouMap {
 				profileArea.setText(readToString(selectedVertexPathString));
 			}
 		});
-		mapBox.add(menuJList);
+		menuBox.add(menuJList);
 		
 		//添加输入框的标签、输入框和提交按钮
 		JComboBox<String> departureComboBox = new JComboBox<String>(vertexNamesForJList);
 		JComboBox<String> arrivalComboBox = new JComboBox<String>(vertexNamesForJList);
 		JLabel JLabel1 = new JLabel("出发点:   ");
-//		JTextField departmentTextField = new JTextField("请输入出发点");
 		JLabel JLabel2 = new JLabel("终点:        ");
-//		JTextField arrivalTextField = new JTextField("请输入终点");
+		//设计提交按钮以及事件监听器
 		JButton submitButton = new JButton("提交");
 		submitButton.addActionListener(new ActionListener() {
 			
@@ -136,12 +137,20 @@ public class ChangzhouMap {
 
 			}
 		});
-		
+		//设置地图显示按钮
+		JButton showMapButton = new JButton("显示地图");
+		showMapButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				mapJFrame.setVisible(true);
+			}
+		});
+		//将组件添加进输入盒容器中
 		inputBox1.add(JLabel1);
-//		inputBox1.add(departmentTextField);
 		inputBox1.add(departureComboBox);
 		inputBox2.add(JLabel2);
-//		inputBox2.add(arrivalTextField);
 		inputBox2.add(arrivalComboBox);
 		profileBox.add(profileArea);
 		
@@ -151,11 +160,12 @@ public class ChangzhouMap {
 		inputAreaBox.add(inputBox2);
 		inputAreaBox.add(inputBox2);
 		inputAreaBox.add(submitButton);
+		inputAreaBox.add(showMapButton);
 		submitButton.setMinimumSize(new Dimension(50,50));
 		inputAreaBox.add(Box.createRigidArea(new Dimension(0, 300)));
 		
 		//上部横向盒子组装
-		upperBox.add(mapBox);
+		upperBox.add(menuBox);
 		upperBox.add(inputAreaBox);
 		
 		//最外层盒子组装
@@ -167,8 +177,13 @@ public class ChangzhouMap {
 
 		mainJFrame.add(outterBox);
 		mainJFrame.setVisible(true);
+		
+		mapJFrame.setBounds(700, 0, 400, 400);
+		mapJFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		mapJFrame.setVisible(true);
 	}
 	//来源https://www.cnblogs.com/longronglang/p/7458027.html
+	//用于处理从文本文件中一次性读取所有内容到内存中指定string中
 	public static String readToString(String filePath) {  
         String encoding = "UTF-8";  
         File file = new File(filePath);  
@@ -177,7 +192,7 @@ public class ChangzhouMap {
         try {  
             FileInputStream in = new FileInputStream(file);  
             in.read(filecontent);  
-            in.close();  
+            in.close();
         } catch (FileNotFoundException e) {  
             e.printStackTrace();  
         } catch (IOException e) {  

@@ -1,9 +1,11 @@
 
 
 class Vertex {
-	private int vertexIndex;
-	private String vertexNameString;
-	private String spotIntroFilePath;
+	//私有变量
+	private int vertexIndex;//节点编号
+	private String vertexNameString;//节点名字
+	private String spotIntroFilePath;//节点介绍文件的路径
+	//getter and setter
 	public int getVertexIndex() {
 		return vertexIndex;
 	}
@@ -22,6 +24,7 @@ class Vertex {
 	public void setSpotIntroFilePath(String spotIntroFilePath) {
 		this.spotIntroFilePath = spotIntroFilePath;
 	}
+	//Constructors
 	Vertex() {
 		// TODO Auto-generated constructor stub
 		this.setVertexIndex(-1);
@@ -33,6 +36,7 @@ class Vertex {
 		this.setVertexNameString(vertexNameString);
 		this.setSpotIntroFilePath(spotIntroFilePath);
 	}
+	//主程序中所采用的构造方法，利用配置文件中的一行配置读取节点信息直接创建节点
 	Vertex(String configString){
 		String[] vertexItems = configString.split(":"); 
 		this.setVertexIndex(Integer.parseInt(vertexItems[0]));
